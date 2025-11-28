@@ -83,7 +83,7 @@ def asignar_area(respuestas):
     area_final = max(conteo, key=conteo.get)
     return area_final
 
-# 🔵 --- NUEVO: SELECCIÓN DE PUESTO DESEADO ---
+# --- NUEVO: SELECCIÓN DE PUESTO DESEADO ---
 def seleccionar_area_deseada():
     print("\n--- SELECCIONA EL PUESTO AL QUE DESEAS APLICAR ---")
     print("1. CARGADOR")
@@ -147,7 +147,7 @@ def iniciar_proceso_seleccion():
 
     datos_usuario = pedir_datos_personales()
 
-    # 🔵 Nuevo: seleccionar puesto
+    #  Nuevo: seleccionar puesto
     area_deseada = seleccionar_area_deseada()
 
     # Cifrado RSA simulado
@@ -197,3 +197,48 @@ def iniciar_proceso_seleccion():
 # Ejecutar
 if __name__ == "__main__":
     iniciar_proceso_seleccion()
+
+{"id":"28491","variant":"code","title":"app.py completo funcional para Bricos"}
+import streamlit as st
+import random
+
+st.set_page_config(page_title="Bricos - Selección de Puesto")
+
+st.title("🧱 Bricos - Sistema de Selección de Puesto y Candidato")
+st.write("Completa los datos para evaluar si eres apto para el puesto seleccionado.")
+
+# Selección del puesto
+puesto = st.selectbox(
+    "Selecciona el puesto al que deseas postular:",
+    ["Asistente administrativo", "Ventas", "Operador", "Gerente", "Soporte técnico"]
+)
+
+# Datos del candidato
+nombre = st.text_input("Nombre completo")
+edad = st.number_input("Edad", min_value=18, max_value=70, step=1)
+experiencia = st.number_input("Años de experiencia", min_value=0, max_value=50, step=1)
+habilidades = st.multiselect(
+    "Habilidades",
+    ["Trabajo en equipo", "Comunicación", "Organización", "Liderazgo", "Resolución de problemas", "Ventas"]
+)
+
+st.write("---")
+
+# Botón para evaluar
+if st.button("Evaluar candidato"):
+    if nombre == "":
+        st.error("Por favor ingresa tu nombre.")
+    else:
+        # Fórmula de evaluación
+        puntaje = experiencia * 5 + len(habilidades) * 10 + random.randint(5, 25)
+
+        st.success(f"Evaluación completada para **{nombre}**")
+        st.metric("Puntaje total", puntaje)
+
+        # Resultado según puesto
+        if puntaje >= 80:
+            st.success(f"🎉 ¡Felicidades! Eres un excelente candidato para el puesto de {puesto}.")
+        elif puntaje >= 60:
+            st.info(f"😊 Tienes posibilidades para el puesto de {puesto}.")
+        else:
+            st.warning(f"😕 Tu perfil aún no es suficiente para el puesto de {puesto}.")
